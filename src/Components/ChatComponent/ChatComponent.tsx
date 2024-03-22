@@ -68,6 +68,25 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
     setClearMessages(true);
   };
 
+  const updateTabs = (tab: string) => {
+    switch (tab) {
+      case "sentiment":
+        setShowSentimentTab(true);
+        break;
+      case "gpt":
+        setShowGptTab(true);
+        break;
+      case "persons":
+        setShowPersonsTab(true);
+        break;
+      case "topics":
+        setShowTopicsTab(true);
+        break;
+      default:
+        console.log("Invalid tab");
+    }
+  };
+
   const handleSelectOption = (selectedOption: string) => {
     if (activeTab) {
       // Make sure activeTab is a string
@@ -94,7 +113,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
             ? true
             : currentState.showGptTab,
         showPersonsTab:
-          selectedOption === "Participants" ? true : currentState.showPersonsTab,
+          selectedOption === "Participants"
+            ? true
+            : currentState.showPersonsTab,
       };
 
       // Update the fileTabStates with the new state for activeTab
@@ -212,6 +233,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         handleClearMessages={handleClearMessages}
         handleSelectOption={handleSelectOption}
         updateFilePath={updateFilePath}
+        updateTabs={updateTabs} // Passing the new function as a prop
       />
       <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
         <LeftBoxContent

@@ -17,6 +17,7 @@ interface AppBarComponentProps {
   handleClearMessages: () => void;
   handleSelectOption: (selectedOption: string) => void;
   updateFilePath: (filePath: string) => void; // Accept this prop
+  updateTabs: (tab: string) => void;
 }
 
 interface Option {
@@ -50,6 +51,7 @@ const AppBarComponent: React.FC<AppBarComponentProps> = ({
   handleClearMessages,
   handleSelectOption,
   updateFilePath,
+  updateTabs,
 }) => {
   const theme = useTheme();
   const themeMode = theme.palette.mode;
@@ -87,8 +89,6 @@ const AppBarComponent: React.FC<AppBarComponentProps> = ({
       results.unshift(myDefaultOption);
     }
 
-
-
     return results;
   };
 
@@ -101,7 +101,7 @@ const AppBarComponent: React.FC<AppBarComponentProps> = ({
       return a.label.localeCompare(b.label);
     });
   };
-  
+
   // Usage before passing to Autocomplete
   const sortedOptions = sortOptions(options);
 
@@ -240,6 +240,12 @@ const AppBarComponent: React.FC<AppBarComponentProps> = ({
                 })
                 .then(() => {
                   updateFilePath(mdFileLink);
+                  if (
+                    parts[3] &&
+                    ["sentiment", "gpt", "persons", "topics"].includes(parts[3])
+                  ) {
+                    updateTabs(parts[3]);
+                  }
                 })
                 .catch((error) => {
                   console.error("Error fetching file:", error);
